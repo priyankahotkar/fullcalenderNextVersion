@@ -4,11 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
-  },
+  "dev": "vite",
+  "build": "powershell -Command \"Remove-Item -Path 'dist\\*' -Recurse -Force -ErrorAction SilentlyContinue\" && vite build",
+  "lint": "eslint .",
+  "preview": "vite preview",
+  "deploy": "powershell -Command \"Remove-Item -Path 'dist\\*' -Recurse -Force -ErrorAction SilentlyContinue\" && vite build && firebase deploy"
+},
   "dependencies": {
     "date-fns": "^3.3.1",
     "firebase": "^11.6.1",
