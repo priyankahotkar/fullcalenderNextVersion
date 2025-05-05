@@ -3,8 +3,9 @@
 A feature-rich calendar app inspired by [FullCalendar.io](https://fullcalendar.io), supercharged with:
 
 * 🔐 Firebase Authentication
-* 💬 Real-time Chat
-* 📆 Intelligent Meeting Scheduling
+* 💬 Real-time Chat (with availability filtering)
+* 📆 Smart Meeting Scheduling
+* 🎥 Jitsi Meet Video Calls
 * 🔔 Push Notifications
 * ⚛️ Built with React + TypeScript
 
@@ -20,23 +21,31 @@ A feature-rich calendar app inspired by [FullCalendar.io](https://fullcalendar.i
 ### 💬 Real-Time Chat
 
 * Built using Firebase Firestore
-* Seamless messaging via `ChatBox.tsx` and `MessagesSection.tsx`
+* Chat is only enabled between users with scheduled events
+* Interfaces: `ChatBox.tsx`, `MessagesSection.tsx`
 * State managed by `ChatContext.tsx`
 
-### 📆 Event Scheduling
+### 📆 Intelligent Event Scheduling
 
-* Schedule events in the `Calendar.tsx` component
-* Auto-suggests available users for meetings using logic from `UserSearchModal.tsx` and `EventModal.tsx`
-* Event creation and availability handled via Firestore & `EventContext.tsx`
+* Events created via `Calendar.tsx` + `EventModal.tsx`
+* Suggests available users dynamically via `UserSearchModal.tsx`
+* Scheduled users are notified and added to calendar
+* Creates eligibility for chat & video call
+
+### 🎥 Video Meetings via Jitsi
+
+* Jitsi Meet integrated for seamless in-browser video calls
+* Accessible only with participants of scheduled events
+* No app installation required
 
 ### 📤 Push Notifications
 
 * Integrated with Firebase Cloud Messaging
-* Users receive instant notifications for:
+* Alerts for:
 
-  * Meeting invites
   * Chat messages
-  * Event updates
+  * Event invitations
+  * Video meeting reminders
 
 ---
 
@@ -46,25 +55,26 @@ A feature-rich calendar app inspired by [FullCalendar.io](https://fullcalendar.i
 src/
 ├── components/
 │   └── views/
-│       ├── Calendar.tsx           # FullCalendar integration + events
-│       ├── ChatBox.tsx            # Chat input and display
-│       ├── EventModal.tsx         # Create/edit events
-│       ├── NewEventPopover.tsx    # Quick event creation UI
-│       ├── UserSearchModal.tsx    # Meeting participant selector
-│       ├── MessagesSection.tsx    # Chat thread display
-│       └── Header.tsx             # Navigation and user info
+│       ├── Calendar.tsx
+│       ├── ChatBox.tsx
+│       ├── EventModal.tsx
+│       ├── NewEventPopover.tsx
+│       ├── UserSearchModal.tsx
+│       ├── MessagesSection.tsx
+│       ├── Header.tsx
+│       └── JitsiMeetRoom.tsx         # (video call logic, if modularized)
 │
 ├── context/
 │   ├── ChatContext.tsx
 │   ├── EventContext.tsx
 │   └── UserSearchContext.tsx
 │
-├── auth.tsx               # Authentication hooks and login state
-├── firebaseConfig.ts      # Firebase setup and exports
-├── types.ts               # TypeScript interfaces and types
-├── App.tsx                # Root component
-├── main.tsx               # React DOM render logic
-└── index.css              # Global styles
+├── auth.tsx
+├── firebaseConfig.ts
+├── types.ts
+├── App.tsx
+├── main.tsx
+└── index.css
 ```
 
 ---
@@ -113,37 +123,41 @@ npm run dev
 
 ## 🧠 How Smart Scheduling Works
 
-* On event creation (`EventModal.tsx`), app:
+* Event is created in `EventModal.tsx`
+* System checks Firestore for available users using `UserSearchModal.tsx`
+* Once scheduled:
 
-  * Queries Firestore for available users via `UserSearchModal.tsx`
-  * If users are available:
-
-    * Assigns one to the event
-    * Notifies both via FCM and ChatContext
-    * Adds event to both users’ calendars
+  * Event added to both calendars
+  * Participants can chat and join Jitsi meetings
+  * Notifications sent via FCM
 
 ---
 
 ## 🔐 Security
 
 * Role-based access via Firestore rules
-* All API and UI interactions secured through Firebase Auth
-* Chat and meeting data scoped to authenticated users
+* Chat and video calls scoped only to event participants
+* All actions gated through Firebase Auth
 
 ---
 
-
 ## 🧑‍💻 Author
 
-**Your Name**
-[GitHub](https://github.com/priyankahotkar) · [LinkedIn](https://linkedin.com/in/priyanka-hotkar-3a667a259) · [Portfolio](https://priyankahotkar.github.io/Portfolio/) .
+**Priyanka Hotkar**
+[GitHub](https://github.com/priyankahotkar) · [LinkedIn](https://linkedin.com/in/priyanka-hotkar-3a667a259) · [Portfolio](https://priyankahotkar.github.io/Portfolio/)
 
 ---
 
 ## 🌟 Future Enhancements
 
-* Video call integration via Jitsi
-* Weekly/monthly availability dashboards
-* Group meeting coordination
+* Calendar analytics dashboards
+* Advanced availability conflict resolution
+* Cross-platform meeting reminders
 
 ---
+
+🚀 Live Demo
+Check out the working application here:
+👉 https://fullcalender-1bddf.web.app/
+
+🌐 Hosted via Firebase Hosting | Best viewed on desktop
