@@ -87,7 +87,7 @@ const Calendar: React.FC<CalendarProps> = React.memo(({ view, currentDate }) => 
       </button>
       {showMessagesSection && (
         <div className="fixed top-0 right-0 w-80 h-full bg-white shadow-lg z-[1000] overflow-y-auto">
-          <MessagesSection />
+          <MessagesSection setShowMessagesSection={setShowMessagesSection} />
         </div>
       )}
       {selectedEvent && <EventModal />}

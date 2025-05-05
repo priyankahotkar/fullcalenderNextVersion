@@ -6,7 +6,12 @@ import { useEvents } from '../context/EventContext';
 import { useChat } from '../context/ChatContext';
 import { User } from '../types';
 
-const MessagesSection: React.FC = () => {
+// Define props interface
+interface MessagesSectionProps {
+  setShowMessagesSection: (value: boolean) => void;
+}
+
+const MessagesSection: React.FC<MessagesSectionProps> = ({ setShowMessagesSection }) => {
   const { chatList, unreadMessages } = useChat();
   const { setSelectedParticipant } = useEvents();
   const [userDetails, setUserDetails] = useState<{ [key: string]: User }>({});

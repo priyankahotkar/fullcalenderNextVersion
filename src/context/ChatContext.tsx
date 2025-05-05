@@ -35,6 +35,8 @@ interface ChatContextType {
   chatList: Chat[];
   unreadMessages: { [key: string]: number };
   newMessageUser: NewMessageUser | null;
+  showMessagesSection: boolean; // Add this
+  setShowMessagesSection: (value: boolean) => void; // Add this
   sendMessage: (recipientId: string, message: string, sender: FirebaseUser) => Promise<void>;
   markChatAsRead: (otherUserId: string) => Promise<void>;
   clearNewMessageUser: () => void;
@@ -48,6 +50,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   const [unreadMessages, setUnreadMessages] = useState<{ [key: string]: number }>({});
   const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
   const [newMessageUser, setNewMessageUser] = useState<NewMessageUser | null>(null);
+  const [showMessagesSection, setShowMessagesSection] = useState(true); // Add this
   const [processedMessageIds, setProcessedMessageIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
@@ -59,6 +62,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
         setChatList([]);
         setUnreadMessages({});
         setNewMessageUser(null);
+        setShowMessagesSection(true); // Reset visibility on logout
         setProcessedMessageIds(new Set());
       }
     });
@@ -308,6 +312,8 @@ export function ChatProvider({ children }: { children: ReactNode }) {
         chatList,
         unreadMessages,
         newMessageUser,
+        showMessagesSection, // Add this
+        setShowMessagesSection, // Add this
         sendMessage,
         markChatAsRead,
         clearNewMessageUser,
